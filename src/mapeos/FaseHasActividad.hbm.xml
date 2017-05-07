@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="datos.FaseHasActividad" table="fase_has_actividad">
+		<id column="id_fase_has_actividad" name="idFaseHasActividad">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="fase" class="datos.Fase" column="fase_idfase"
+			not-null="true" />
+		<many-to-one name="actividad" class="datos.Actividad"
+			column="actividad_idactividad" not-null="true" />
+		<property column="fase_inicial" name="faseInicial" type="boolean" />
+		<property column="fase_final" name="faseFinal" type="boolean" />
+	</class>
+</hibernate-mapping>

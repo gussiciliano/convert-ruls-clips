@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="datos.Actividad" table="actividad">
+		<id column="idactividad" name="idActividad">
+			<generator class="identity" />
+		</id>
+		<property column="nombre" name="nombre" type="string" />
+		<many-to-one name="proceso" class="datos.Proceso" column="proceso_idproceso"
+			not-null="true" />
+		<many-to-one name="grupoActividad" class="datos.GrupoActividad"
+			column="grupo_actividad_idgrupo_actividad" not-null="true" />
+		<set table="es_entrada_de" name="productosDeEntrada" outer-join="true">
+			<key column="idactividad" />
+			<many-to-many column="idproducto" class="datos.Producto" />
+		</set>
+		<set table="es_salida_de" name="productosDeSalida" outer-join="true">
+			<key column="idactividad" />
+			<many-to-many column="idproducto" class="datos.Producto" />
+		</set>
+		<set name="faseHasActividades" table="fase_has_actividad" order-by="idFaseHasActividad asc"
+			inverse="true" lazy="true" fetch="select">
+			<key column="idactividad" not-null="true" />
+			<one-to-many class="datos.FaseHasActividad" />
+		</set>
+	</class>
+</hibernate-mapping>

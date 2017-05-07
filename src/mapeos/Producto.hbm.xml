@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="datos.Producto" table="producto">
+		<id column="idproducto" name="idProducto">
+			<generator class="identity" />
+		</id>
+		<property column="nombre" name="nombre" type="string" />
+		<set table="es_entrada_de" name="entradaDeActividades" outer-join="true">
+			<key column="idproducto" />
+			<many-to-many column="idactividad" class="datos.Actividad" />
+		</set>
+		<set table="es_salida_de" name="salidaDeActividades" outer-join="true">
+			<key column="idproducto" />
+			<many-to-many column="idactividad" class="datos.Actividad" />
+		</set>
+	</class>
+</hibernate-mapping>
