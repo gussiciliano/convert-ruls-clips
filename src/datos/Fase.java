@@ -5,6 +5,7 @@ import java.util.Set;
 public class Fase extends MasterDato {
 	private int idFase;
 	private String nombre;
+	private String codigo;
 	private Set<FaseHasActividad> faseHasActividades;
 
 	public Fase() {
@@ -16,6 +17,14 @@ public class Fase extends MasterDato {
 
 	public void setIdFase(int idFase) {
 		this.idFase = idFase;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNombre() {
@@ -34,6 +43,10 @@ public class Fase extends MasterDato {
 		this.faseHasActividades = faseHasActividades;
 	}
 
+	public String enCurso(){
+		return "(fase (codigo "+getCodigo()+") (estado en-curso))\n\t";
+	}
+	
 	@Override
 	public String toString() {
 		return "Fase OK";

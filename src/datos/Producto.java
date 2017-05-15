@@ -5,6 +5,7 @@ import java.util.Set;
 public class Producto extends MasterDato {
 	private int idProducto;
 	private String nombre;
+	private String codigo;
 	private Set<Actividad> entradaDeActividades;
 	private Set<Actividad> salidaDeActividades;
 
@@ -27,6 +28,14 @@ public class Producto extends MasterDato {
 		this.nombre = nombre;
 	}
 
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
 	public Set<Actividad> getEntradaDeActividades() {
 		return entradaDeActividades;
 	}
@@ -43,6 +52,10 @@ public class Producto extends MasterDato {
 		this.salidaDeActividades = salidaDeActividades;
 	}
 
+	public String disponible(boolean estaDisponible){
+		return "(producto (codigo "+getCodigo()+") (estado "+(estaDisponible ? "disponible" : "no-disponible") + "))\n\t";
+	}
+	
 	@Override
 	public String toString() {
 		return "Producto OK";
