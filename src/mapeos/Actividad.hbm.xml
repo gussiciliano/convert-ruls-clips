@@ -6,6 +6,7 @@
 			<generator class="identity" />
 		</id>
 		<property column="nombre" name="nombre" type="string" />
+		<property column="codigo" name="codigo" type="string" />
 		<many-to-one name="proceso" class="datos.Proceso" column="proceso_idproceso"
 			not-null="true" />
 		<many-to-one name="grupoActividad" class="datos.GrupoActividad"

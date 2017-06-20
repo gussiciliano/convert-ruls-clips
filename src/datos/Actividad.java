@@ -110,14 +110,49 @@ public class Actividad extends MasterDato {
 		return f;		
 	}
 	
+	
+	/*
+	(deffacts hechos-iniciales
+			  (trabajador (causa nacimiento) (nombre empleado1) (antiguedad 12) (acumulado-examen 0))
+			  (trabajador (causa matrimonio) (nombre empleado2) (antiguedad 16) (acumulado-examen 0))
+			  (trabajador (causa fallecimiento-conyuge) (nombre emplado3) (antiguedad 18) (acumulado-examen 0))
+			  (trabajador (causa fallecimiento-hijos) (nombre empleado4) (antiguedad 5) (acumulado-examen 0))
+			  (trabajador (causa fallecimiento-padres) (nombre empleado5) (antiguedad 20) (acumulado-examen 0))
+			  (trabajador (causa fallecimiento-hermano) (nombre empleado6) (antiguedad 22) (acumulado-examen 0))
+			  (trabajador (causa examen) (nombre empleado7) (antiguedad 1) (acumulado-examen 6))
+			  (trabajador (causa examen) (nombre empleado8) (antiguedad 3) (acumulado-examen 10))
+			  (trabajador (causa ordinaria) (nombre empleado9) (antiguedad 2) (acumulado-examen 0))
+			  (trabajador (causa ordinaria) (nombre empleado10) (antiguedad 7) (acumulado-examen 0))
+			  (trabajador (causa ordinaria) (nombre empleado11) (antiguedad 12) (acumulado-examen 0))
+			  (trabajador (causa ordinaria) (nombre empleado12) (antiguedad 22) (acumulado-examen 0)))
+
+	*/
+	
 	public String defFact(){
 		// genera el deffact para la actividad
+		// necesitamos el codigo para la actividad desde el grupo de actividad
 		
+		
+		// cada fase pertenece a lo que llamamos un grupo_actividad (en el resumen procesos incluidos)
+		// y cada uno de ellos a un proceso 
+				
+		//(trabajador (causa nacimiento) (nombre empleado1) (antiguedad 12) (acumulado-examen 0))
+		
+		StringBuffer fact=new StringBuffer(300);
+			
+		fact.append("("+grupoActividad.getCodigo()+"\n");
+		fact.append("	(codigo "+codigo+")\n");
+		fact.append("	(nombre "+nombre+")\n");
+		fact.append("	(estado no-iniciada)\n");
+		fact.append("	(fase-inicial "+faseInicial().getCodigo()+")\n");
+		fact.append("	(fase-final "+faseFinal().getCodigo()+")\n");
+		
+		return fact.toString();
 	}
 	
 	public String defRules(){
 		
-		return ";; Par de reglas Inicializacion-Terminación para la actividad "+nombre+"\n\n"+
+		return ";; Par de reglas de inicializacion y terminación para la actividad "+nombre+"\n\n"+
 				defRuleIniciacion()+"\n\n"+defRuleFinalizacion();
 	}
 	
@@ -205,9 +240,13 @@ public class Actividad extends MasterDato {
 		
 	}
 	
-	public String defPER(){
-		
-	}
+//	public String defPERInicializacion(){
+//		
+//	}
+//	
+//	public String defPERFinalizacion(){
+//		
+//	}
 	
 	@Override
 	public String toString() {

@@ -6,6 +6,7 @@ public class GrupoActividad extends MasterDato {
 	private int idGrupoActividad;
 	private String nombre;
 	private Proceso proceso;
+	private String codigo;
 	private Set<Actividad> actividades;
 
 	public GrupoActividad() {
@@ -43,8 +44,41 @@ public class GrupoActividad extends MasterDato {
 		this.actividades = actividades;
 	}
 	
+	
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
 	@Override
 	public String toString() {
 		return "GrupoActividad OK";
+	}
+	
+	public String defTemplateActividad(){
+		StringBuffer template=new StringBuffer(300);
+		template.append("(deftemplate "+codigo+"\n");
+		template.append("   (slot codigo\n");
+		template.append("       (type SYMBOL)\n");
+		template.append("       (allowed-symbols ");
+		for(Actividad a:actividades){
+			template.append(" "+a.getCodigo());
+		}
+		template.append("))\n");
+		template.append("   (slot nombre\n");
+		template.append("		(type STRING))\n");
+		template.append("   (slot estado\n");
+		template.append("		(type SYMBOL)\n");
+		template.append("		(allowed-symbols no-iniciada iniciada terminada))\n");
+		template.append("   (slot fase-inicial \n");
+		template.append("		(type SYMBOL)\n");
+		template.append("		(allowed-symbols prep req dis codif test oper fin))\n");
+		template.append("   (slot fase-final\n");
+		template.append("		(type SYMBOL)\n");
+		template.append("		(allowed-symbols prep req dis codif test oper fin)))\n");
+		return template.toString();
 	}
 }

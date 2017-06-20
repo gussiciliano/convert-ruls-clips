@@ -5,7 +5,7 @@ import datos.Actividad;
 
 public class ActividadABM extends MasterABM<Actividad>{
 	
-	protected ActividadABM() {
+	public ActividadABM() {
 		super(new ActividadDao());
 	}
 }

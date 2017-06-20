@@ -5,13 +5,14 @@
 		<id column="idgrupo_actividad" name="idGrupoActividad">
 			<generator class="identity" />
 		</id>
+		<property column="nombre" name="nombre" type="string" />
+		<property column="codigo" name="codigo" type="string" />
 		<set name="actividades" table="actividad" order-by="idActividad asc"
 			inverse="true" lazy="true" fetch="select">
-			<key column="idgrupo_actividad" not-null="true" />
+			<key column="grupo_actividad_idgrupo_actividad" not-null="true" />
 			<one-to-many class="datos.Actividad" />
 		</set>
 		<many-to-one name="proceso" class="datos.Proceso" column="proceso_idproceso"
 			not-null="true" />
-		<property column="nombre" name="nombre" type="string" />
 	</class>
 </hibernate-mapping>
