@@ -10,6 +10,12 @@ public class FaseHasActividad extends MasterDato {
 	public FaseHasActividad() {
 	}
 	
+	public FaseHasActividad(Fase fase, Actividad actividad) {
+		super();
+		this.fase = fase;
+		this.actividad = actividad;
+	}
+
 	public int getIdFaseHasActividad() {
 		return idFaseHasActividad;
 	}

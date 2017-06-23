@@ -102,6 +102,7 @@ public class Actividad extends MasterDato {
 		FaseHasActividad fha=null;
 		Fase f=null;
 		while(i.hasNext() && f==null){
+			fha=i.next();
 			if((fha.isFaseInicial() && inicial) || (fha.isFaseFinal() && !inicial)){
 				f=fha.getFase();
 			}
@@ -142,10 +143,14 @@ public class Actividad extends MasterDato {
 			
 		fact.append("("+grupoActividad.getCodigo()+"\n");
 		fact.append("	(codigo "+codigo+")\n");
-		fact.append("	(nombre "+nombre+")\n");
+		fact.append("	(nombre '"+nombre+"')\n");
 		fact.append("	(estado no-iniciada)\n");
-		fact.append("	(fase-inicial "+faseInicial().getCodigo()+")\n");
-		fact.append("	(fase-final "+faseFinal().getCodigo()+")\n");
+		Fase fi=faseInicial();
+		Fase ff=faseFinal();
+		String code=(fi==null ? "na" : fi.getCodigo());
+		fact.append("	(fase-inicial "+code+")\n");
+		code=(ff==null ? "na" : ff.getCodigo());
+		fact.append("	(fase-final "+code+"))\n");
 		
 		return fact.toString();
 	}
@@ -171,33 +176,36 @@ public class Actividad extends MasterDato {
 		
 		StringBuffer regla=new StringBuffer(300);
 		
+		// Cuidado: Si no tiene fase inicial, no se emite regla de iniciacion (ni de finalización, para el caso)
 		
-		regla.append("(defrule iniciar-"+codigo+"\n\t ");
-		
-		// estamos en MCV cascada?
-		regla.append("(mcv (codigo cascada))\n");
-		
-		// la regla está no iniciada?
-		regla.append("?a <- (actividad (codigo "+getCodigo()+") (estado no-iniciada))\n");
-		
-		// estamos en la fase adecuada para iniciar?
-		regla.append(faseInicial().enCurso());
-		
-		// hay caracteristicas que deban estar presentes?
-		for(Caracteristica caracteristica:caracteristicas){
-			regla.append(caracteristica.presente(true));
+		if(faseInicial()!=null){
+			regla.append("(defrule iniciar-"+codigo+"\n\t ");
+			
+			// estamos en MCV cascada?
+			regla.append("(mcv (codigo cascada))\n");
+			
+			// la regla está no iniciada?
+			regla.append("?a <- (actividad (codigo "+getCodigo()+") (estado no-iniciada))\n");
+			
+			// estamos en la fase adecuada para iniciar?
+			regla.append(faseInicial().enCurso());
+			
+			// hay caracteristicas que deban estar presentes?
+	//		for(Caracteristica caracteristica:caracteristicas){
+	//			regla.append(caracteristica.presente(true));
+	//		}
+			
+			// están los productos necesarios?
+			for(Producto producto:productosDeEntrada){
+				regla.append(producto.disponible(true));
+			}
+			
+			regla.append("=>\n\t");
+			
+			// marcamos la actividad como iniciada 
+			
+			regla.append("(modify ?a (estado iniciada))\n");
 		}
-		
-		// están los productos necesarios?
-		for(Producto producto:productosDeEntrada){
-			regla.append(producto.disponible(true));
-		}
-		
-		regla.append("=>\n\t");
-		
-		// marcamos la actividad como iniciada 
-		
-		regla.append("(modify ?a (estado iniciada))\n");
 		
 		return regla.toString();
 		
@@ -214,27 +222,31 @@ public class Actividad extends MasterDato {
 			
 		StringBuffer regla=new StringBuffer(300);
 		
-		regla.append("(defrule finalizar-"+codigo+"\n\t ");
+		// Cuidado: Si no tiene fase final, no se emite regla de finalización
 		
-		// estamos en MCV cascada?
-		regla.append("(mcv (codigo cascada))\n");
-		
-		// la regla está iniciada?
-		regla.append("?a <- (actividad (codigo "+getCodigo()+") (estado iniciada))\n");
-		
-		// estamos en la fase adecuada para terminar?
-		regla.append(faseFinal().enCurso());
-		
-		// están los productos de salida disponibles?
-		for(Producto producto:productosDeSalida){
-			regla.append(producto.disponible(true));
+		if(faseFinal()!=null){
+			regla.append("(defrule finalizar-"+codigo+"\n\t ");
+			
+			// estamos en MCV cascada?
+			regla.append("(mcv (codigo cascada))\n");
+			
+			// la regla está iniciada?
+			regla.append("?a <- (actividad (codigo "+getCodigo()+") (estado iniciada))\n");
+			
+			// estamos en la fase adecuada para terminar?
+			regla.append(faseFinal().enCurso());
+			
+			// están los productos de salida disponibles?
+			for(Producto producto:productosDeSalida){
+				regla.append(producto.disponible(true));
+			}
+			
+			regla.append("=>\n\t");
+			
+			// marcamos la actividad como terminada 
+			
+			regla.append("(modify ?a (estado terminada))\n");
 		}
-		
-		regla.append("=>\n\t");
-		
-		// marcamos la actividad como terminada 
-		
-		regla.append("(modify ?a (estado terminada))\n");
 		
 		return regla.toString();
 		

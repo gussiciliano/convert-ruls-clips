@@ -6,7 +6,7 @@ import java.util.List;
 import datos.MasterDato;
 
 @SuppressWarnings("rawtypes")
-public class AdminAMB {
+public class AdminABM {
 
 	private ActividadABM actividadABM;
 	private FaseABM faseABM;  
@@ -16,7 +16,7 @@ public class AdminAMB {
 	private ProductoABM productoABM;
 	private List<MasterABM> allABMs;
 	
-	public AdminAMB() {
+	public AdminABM() {
 		this.actividadABM = new ActividadABM();
 		this.faseABM = new FaseABM();
 		this.faseHasActividadABM = new FaseHasActividadABM();

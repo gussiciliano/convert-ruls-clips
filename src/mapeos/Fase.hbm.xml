@@ -6,6 +6,7 @@
 			<generator class="identity" />
 		</id>
 		<property column="nombre" name="nombre" type="string" />
+		<property column="codigo" name="codigo" type="string" />
 		<set name="faseHasActividades" table="fase_has_actividad" order-by="idFaseHasActividad asc"
 			inverse="true" lazy="true" fetch="select">
 			<key column="idfase" not-null="true" />

@@ -7,9 +7,9 @@ import datos.GrupoActividad;
 import negocio.ActividadABM;
 import negocio.GrupoActividadABM;
 
-public class testDefFacts {
+public class TestDefTemplate {
 
-	public testDefFacts() {
+	public TestDefTemplate() {
 		// TODO Auto-generated constructor stub
 	}
 

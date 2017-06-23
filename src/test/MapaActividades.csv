@@ -1,0 +1,66 @@
+,idFase,1,2,3,4,5,6,7,8,
+idActividad,,Preparacion,Requisitos y análisis,Diseño,Codificacion,Integracion,Implementacion,Operacion y mantenimiento,Retiro,
+1,Realizar estimaciones,x,x,,,,,,,"Estimamos al principio, para presupuestar fundamentalmente"
+2,Asignar recursos,x,x,x,x,x,x,x,x,"Creería que los recursos se asignan al principio también, pero no estoy seguro"
+3,Definir metricas,x,x,x,,,,,,
+4,Plan de evaluaciones,x,x,,,,,,,Plan de evaluación solo al principio (no es iniciacion?)
+5,Plan de gestion de la configuracion,,x,,,,,,,Idem ant
+6,Plan de transicion del sistema,,,x,x,x,,,,"Sólo si hay transición, ojo y debería durar hasta antes de la instalación (Implementacion?)"
+7,Plan de instalacion,,,x,x,x,,,,Hasta antes de la instalación
+8,Documentar,x,x,x,x,x,x,x,x,Siempre
+9,Formar,,,,,x,x,x,,
+10,Plan de gestion del proyecto,x,x,,,,,,,
+11,Plan de integracion,,,x,x,,x,,,Sólo si hay que integrar con SW existente
+12,Gestionar riesgos,x,x,x,x,x,x,,,
+13,Gestionar el proyecto,x,x,x,x,x,x,x,x,
+14,Identificar requerimientos de mejora del pcvs,x,x,x,x,x,x,x,x,
+15,Mantener registros,x,x,x,x,x,x,x,x,Siempre
+16,Recolectar y analizar metricas,,x,x,x,x,x,x,x,Casi siempre. Me cabe la duda de si durante la factibilidad
+17,Identificar ideas o requerimientos,x,x,,,,,,,
+18,Formular enfoques potenciales,x,x,,,,,,,
+19,Realizar estudios de factibilidad,x,x,,,,,,,
+20,Refinar y finalizar la idea o requerimiento,,x,,,,,,,
+21,Analizar funciones,,x,x,,,,,,
+22,Desarrollar la arquitectura del sistema,,x,,,,,,,
+23,Descomponer los requerimientos del sistema,,x,,,,,,,
+24,Identificar requerimientos del software impor,,x,,,,,,,
+25,Evaluar origenes del software importado,,,x,,,,,,
+26,Definir el metodo del software importado,,,x,,,,,,
+27,Importar software,,,,,x,,,,
+28,Definir y desarrollar requerimientos del soft,,x,,,,,,,
+29,Definir requerimientos de interfaz,,x,,,,,,,
+30,Priorizar e integrar requerimientos de softwa,,x,,,,,,,
+31,Realizar un diseño arquitectonico,,x,x,,,,,,
+32,Diseñar la base de datos,,,x,,,,,,
+33,Diseñar interfaces,,,x,,,,,,
+34,Realizar diseño detallado,,,x,,,,,,
+35,Crear codigo ejecutable,,,,x,,,,,
+36,Crear documentacion operativa,,,x,x,x,,,,
+37,Realizar integracion,,,,,x,,,,
+38,Distribuir software,,,,,,x,,,
+39,Instalar software,,,,,,x,,,
+40,Aceptar el software en el ambiente operaciona,,,,,,x,,,
+41,Operar el sistema,,,,,,,x,,
+42,Mantener un log de solicitudes de soporte,,,,,,,x,,
+43,Proveer asistencia tecnica y consultoria,,,,,,,x,,
+44,Identificar requerimientos de mejora del soft,,,,,,,x,,
+45,Implementar metodo de reporte de problemas,,,x,,,,,,
+46,Reaplicar el ciclo de vida del software,,,,,,,x,,
+47,Notificar al usuario,,,,,,,x,x,"Me parece que debeŕiamos cortar después de implementación, ver"
+48,Realizar operaciones paralelas,NA,NA,NA,NA,NA,NA,NA,NA,Qué es esto? Alguien sabe?
+49,Retirar el sistema,,,,,,,,x,
+50,Realizar revisiones,,x,x,x,x,,,,
+51,Crear matriz de trazabilidad,,x,x,x,x,,,,
+52,Realizar auditoria,,x,x,x,,,,,
+53,Desarrollar procedimientos de testing,,,x,x,,,,,
+54,Crear datos de test,,,x,x,,,,,
+55,Ejecutar tests,,,,x,x,x,,,Qué es exactamente implementacion?
+56,Reportar resultados de evaluacion,,x,x,x,x,x,x,x,
+57,Desarrollar identificacion de configuracion,x,,,,,,,,
+58,Realizar control de configuracion,,x,x,x,x,x,x,x,
+59,Realizar estado de cuenta,,,x,x,x,x,x,x,Y esto? Qué es?
+60,Implementar documentacion,,,x,x,x,,,,
+61,Producir y distribuir documentacion,,,,,x,x,,,
+62,Desarrollar materiales de formacion,,,x,x,x,,,,
+63,Validar el programa de formacion,,,,,x,x,,,
+64,Implementar el programa de formacion,,,,,,x,x,,

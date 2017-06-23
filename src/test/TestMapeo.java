@@ -1,12 +1,12 @@
 package test;
 
 import datos.MasterDato;
-import negocio.AdminAMB;
+import negocio.AdminABM;
 
 public class TestMapeo {
 
 	public static void main(String[] args) {
-		AdminAMB adminABM = new AdminAMB();
+		AdminABM adminABM = new AdminABM();
 		for (MasterDato dato: adminABM.testTraerParaTodosLasClasesDeDato()) {
 			System.out.println(dato);
 		}

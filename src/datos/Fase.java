@@ -20,7 +20,13 @@ public class Fase extends MasterDato {
 	}
 
 	public String getCodigo() {
-		return codigo;
+		String code;
+		if(codigo==null)
+			code="na";
+		else
+			code=codigo;
+					
+		return code;
 	}
 
 	public void setCodigo(String codigo) {

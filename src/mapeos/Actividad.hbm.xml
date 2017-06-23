@@ -21,7 +21,7 @@
 		</set>
 		<set name="faseHasActividades" table="fase_has_actividad" order-by="idFaseHasActividad asc"
 			inverse="true" lazy="true" fetch="select">
-			<key column="idactividad" not-null="true" />
+			<key column="actividad_idactividad" not-null="true" />
 			<one-to-many class="datos.FaseHasActividad" />
 		</set>
 	</class>

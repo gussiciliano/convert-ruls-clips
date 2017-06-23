@@ -5,7 +5,7 @@ import datos.Fase;
 
 public class FaseABM extends MasterABM<Fase>{
 	
-	protected FaseABM() {
+	public FaseABM() {
 		super(new FaseDao());
 	}
 }
