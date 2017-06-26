@@ -50,7 +50,7 @@ public class Fase extends MasterDato {
 	}
 
 	public String enCurso(){
-		return "(fase (codigo "+getCodigo()+") (estado en-curso))\n\t";
+		return "(fase (codigo "+getCodigo()+") (estado en-curso))\n";
 	}
 	
 	@Override

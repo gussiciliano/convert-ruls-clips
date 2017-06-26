@@ -179,32 +179,32 @@ public class Actividad extends MasterDato {
 		// Cuidado: Si no tiene fase inicial, no se emite regla de iniciacion (ni de finalización, para el caso)
 		
 		if(faseInicial()!=null){
-			regla.append("(defrule iniciar-"+codigo+"\n\t ");
+			regla.append("(defrule iniciar-"+codigo+"\n");
 			
 			// estamos en MCV cascada?
-			regla.append("(mcv (codigo cascada))\n");
+			regla.append("    (mcv (codigo cascada))\n");
 			
 			// la regla está no iniciada?
-			regla.append("?a <- (actividad (codigo "+getCodigo()+") (estado no-iniciada))\n");
+			regla.append("    ?a <- (actividad (codigo "+getCodigo()+") (estado no-iniciada))\n");
 			
 			// estamos en la fase adecuada para iniciar?
-			regla.append(faseInicial().enCurso());
+			regla.append("    "+faseInicial().enCurso());
 			
 			// hay caracteristicas que deban estar presentes?
 	//		for(Caracteristica caracteristica:caracteristicas){
-	//			regla.append(caracteristica.presente(true));
+	//			regla.append("    "+caracteristica.presente(true));
 	//		}
 			
 			// están los productos necesarios?
 			for(Producto producto:productosDeEntrada){
-				regla.append(producto.disponible(true));
+				regla.append("    "+producto.disponible(true));
 			}
 			
-			regla.append("=>\n\t");
+			regla.append("    "+"=>\n");
 			
 			// marcamos la actividad como iniciada 
 			
-			regla.append("(modify ?a (estado iniciada))\n");
+			regla.append("    "+"(modify ?a (estado iniciada)))\n");
 		}
 		
 		return regla.toString();
@@ -225,27 +225,27 @@ public class Actividad extends MasterDato {
 		// Cuidado: Si no tiene fase final, no se emite regla de finalización
 		
 		if(faseFinal()!=null){
-			regla.append("(defrule finalizar-"+codigo+"\n\t ");
+			regla.append("(defrule finalizar-"+codigo+"\n");
 			
 			// estamos en MCV cascada?
-			regla.append("(mcv (codigo cascada))\n");
+			regla.append("    "+"(mcv (codigo cascada))\n");
 			
 			// la regla está iniciada?
-			regla.append("?a <- (actividad (codigo "+getCodigo()+") (estado iniciada))\n");
+			regla.append("    "+"?a <- (actividad (codigo "+getCodigo()+") (estado iniciada))\n");
 			
 			// estamos en la fase adecuada para terminar?
-			regla.append(faseFinal().enCurso());
+			regla.append("    "+faseFinal().enCurso());
 			
 			// están los productos de salida disponibles?
 			for(Producto producto:productosDeSalida){
-				regla.append(producto.disponible(true));
+				regla.append("    "+producto.disponible(true));
 			}
 			
-			regla.append("=>\n\t");
+			regla.append("    "+"=>\n");
 			
 			// marcamos la actividad como terminada 
 			
-			regla.append("(modify ?a (estado terminada))\n");
+			regla.append("    "+"(modify ?a (estado terminada)))\n");
 		}
 		
 		return regla.toString();

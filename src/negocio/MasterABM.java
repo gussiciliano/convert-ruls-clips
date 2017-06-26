@@ -34,6 +34,11 @@ public abstract class MasterABM<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<T> traerTodosConDependencias(){
+		return (List<T>) getDao().traerTodosConDependencias();
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<T> traerPorHQL(String hql) {
 		return (List<T>) getDao().traerPorHQL(hql);
 	}

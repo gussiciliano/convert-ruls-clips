@@ -53,7 +53,7 @@ public class Producto extends MasterDato {
 	}
 
 	public String disponible(boolean estaDisponible){
-		return "(producto (codigo "+getCodigo()+") (estado "+(estaDisponible ? "disponible" : "no-disponible") + "))\n\t";
+		return "(producto (codigo "+getCodigo()+") (estado "+(estaDisponible ? "disponible" : "no-disponible") + "))\n";
 	}
 	
 	@Override

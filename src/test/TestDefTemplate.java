@@ -16,11 +16,11 @@ public class TestDefTemplate {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		// probamos generacion de reglas
+		// probamos generación de deftemplates
 		
 		GrupoActividadABM ga = new GrupoActividadABM();
 		
-		List<GrupoActividad> grupos=ga.traerTodos();
+		List<GrupoActividad> grupos=ga.traerTodosConDependencias();
 		
 		for(GrupoActividad grupo:grupos){
 			System.out.println(grupo.defTemplateActividad());

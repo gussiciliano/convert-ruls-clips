@@ -57,6 +57,12 @@ public abstract class MasterDao<T> {
 		return lista;
 	}
 
+	// este debería ser abstracto, pero lo dejo así para no tener que estar obligado a implementarlo en todas 
+	// las subclases de MasterDao
+	public List<T> traerTodosConDependencias() throws HibernateException{
+		return null;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<T> traerPorHQL(String hql) throws HibernateException {
 		List<T> lista = null;
