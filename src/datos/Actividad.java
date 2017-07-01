@@ -3,8 +3,6 @@ package datos;
 import java.util.Iterator;
 import java.util.Set;
 
-import dao.ActividadDao;
-
 public class Actividad extends MasterDato {
 	private int idActividad;
 	private String nombre;
@@ -198,7 +196,7 @@ public class Actividad extends MasterDato {
 	//		}
 			
 			// están los productos necesarios?
-			for(Producto producto: (new ActividadDao()).traerProductosDeEntrada(this.getIdActividad())){
+			for(Producto producto:productosDeEntrada){
 				regla.append(producto.disponible(true));
 			}
 			
@@ -239,7 +237,7 @@ public class Actividad extends MasterDato {
 			regla.append(faseFinal().enCurso());
 			
 			// están los productos de salida disponibles?
-			for(Producto producto:(new ActividadDao()).traerProductosDeSalida(this.getIdActividad())){
+			for(Producto producto:productosDeSalida){
 				regla.append(producto.disponible(true));
 			}
 			
