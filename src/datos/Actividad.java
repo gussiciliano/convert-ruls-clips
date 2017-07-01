@@ -96,7 +96,7 @@ public class Actividad extends MasterDato {
 	public Fase faseFinal(){
 		return faseHelper(false);
 	}
-	
+			
 	public Fase faseHelper(boolean inicial){
 		Iterator<FaseHasActividad> i=faseHasActividades.iterator();
 		FaseHasActividad fha=null;
@@ -252,13 +252,224 @@ public class Actividad extends MasterDato {
 		
 	}
 	
-//	public String defPERInicializacion(){
-//		
-//	}
-//	
-//	public String defPERFinalizacion(){
-//		
-//	}
+	public String tablasPER(){
+		return tablaPERIniciacion()+tablaPERFinalizacion();
+	}
+	
+	public String tablaPERFinalizacion(){
+		// devolvemos el texto de la tabla per: 
+		// un identificador de regla (texto)
+		// las palabras del experto (ver si salen de acá o las sacamos del texto de la ieee)
+		// la regla
+		
+		StringBuffer per=new StringBuffer(300);
+		
+		// Cuidado: Si no tiene fase final, no se emite regla de finalización
+		
+		if(faseFinal()!=null){
+			per.append("=======================================================================================================\n");
+			per.append("Identificador de la regla  | Finalización de actividad "+nombre+"\n");
+			per.append("-------------------------------------------------------------------------------------------------------\n");
+			per.append("Palabras del experto:\n");
+			
+			// armamos las palabras del experto: 
+			// Para el MCV cascada, la actividad iniciada (nombre actividad) finaliza cuando se encuentra en la fase   
+			// (nombre fase) y los productos:
+			// (listamos productos)
+			// se encuentran disponibles
+			
+			per.append("\"Para el mapa de actividades vigente (con MCV cascada), \n");
+			per.append("la actividad iniciada "+nombre+"\n");
+			per.append("finaliza cuando el proyecto se encuentra en la fase "+faseFinal().getNombre());
+			
+			per.append(productosPER(productosDeSalida));
+			
+//			if (productosDeSalida.size()==1)
+//				per.append(" y el producto ");
+//			else
+//				per.append(" y los productos"+"\n");
+//			
+//			for(Producto producto:productosDeSalida){
+//				per.append(producto.getNombre()+"\n");
+//			}
+//			
+//			if (productosDeSalida.size()==1)
+//				per.append("se encuentra disponible\"\n");
+//			else
+//				per.append("se encuentran disponibles\"\n");
+			
+			per.append("-------------------------------------------------------------------------------------------------------\n");
+
+			//per.append("Regla:\n");
+			
+			// estamos en MCV cascada?
+			per.append("SI mcv<-codigo=cascada\n");
+			
+			// la regla está no iniciada?
+			per.append("Y actividad<-codigo="+getCodigo());
+			per.append("\nY actividad<-estado=iniciada\n");		
+			
+			// estamos en la fase adecuada para terminar?
+			per.append("Y "+faseFinal().enCursoPER());
+			
+			int numerador=1;
+			for(Producto producto:productosDeSalida){
+				per.append("Y "+producto.disponiblePER(true,numerador++));
+			}
+			
+			per.append("ENTONCES\n");
+			
+			// marcamos la actividad como iniciada 
+			
+			per.append("actividad<-estado=terminada\n");
+
+		}
+		
+		return per.toString();
+		
+	}
+	
+	public String tablaPERIniciacion(){
+		StringBuffer per=new StringBuffer(300);
+		
+		// Cuidado: Si no tiene fase inicial, no se emite regla de iniciacion (ni de finalización, para el caso)
+		
+		if(faseInicial()!=null){
+			per.append("=======================================================================================================\n");
+			per.append("Identificador de la regla  | Iniciación de actividad "+nombre+"\n");
+			per.append("-------------------------------------------------------------------------------------------------------\n");
+			per.append("Palabras del experto:\n");
+			
+			per.append("\"Para el mapa de actividades vigente (con MCV cascada),\nla actividad no iniciada "+nombre+"\n");
+			per.append("se inicia cuando el proyecto se encuentra en la fase "+faseInicial().getNombre());
+			
+			per.append(productosPER(productosDeEntrada));
+			
+//			
+//			
+//			Iterator<Producto> i=productosDeEntrada.iterator();
+//			if(i.hasNext()){
+//				if (productosDeEntrada.size()==1)
+//					per.append(" y el producto ");
+//				else
+//					per.append(" y los productos"+"\n");
+//				
+//				String conector;
+//					
+//				if(productosDeEntrada.size()>2)
+//					conector=", ";
+//				else
+//					conector="";
+//				
+//				Producto producto=i.next();
+//				
+//				do{
+//					per.append(producto.getNombre());
+//					if(i.hasNext())
+//						producto=i.next();
+//					else {
+//						producto=null;
+//						conector="";
+//					}
+//							
+//					if(!i.hasNext() && producto!=null)
+//						conector=" y ";
+//					
+//					per.append(conector+"\n");
+//					
+//				} while(producto!=null);
+//			
+//			
+//				if (productosDeEntrada.size()==1)
+//					per.append("se encuentra disponible\"\n");
+//				else
+//					per.append("se encuentran disponibles\"\n");
+//			}else{
+//				per.append("\"\n");
+//			}
+			
+			per.append("-------------------------------------------------------------------------------------------------------\n");
+			
+			//per.append("Regla:\n");
+			
+			// estamos en MCV cascada?
+			per.append("SI mcv<-codigo=cascada\n");
+			
+			// la regla está no iniciada?
+			per.append("Y actividad<-codigo="+getCodigo());
+			per.append("\nY actividad<-estado=no-iniciada\n");
+			
+			// estamos en la fase adecuada para iniciar?
+			per.append("Y "+faseInicial().enCursoPER());
+			
+			// hay caracteristicas que deban estar presentes?
+	//		for(Caracteristica caracteristica:caracteristicas){
+	//			regla.append("    "+caracteristica.presente(true));
+	//		}
+			
+			// están los productos necesarios?
+			int numerador=1;
+			for(Producto producto1:productosDeEntrada){
+				per.append("Y "+producto1.disponiblePER(true,numerador++));
+			}
+			
+			per.append("ENTONCES\n");
+			
+			// marcamos la actividad como iniciada 
+			
+			per.append("actividad<-estado=iniciada\n\n");
+		}
+		
+		return per.toString();
+
+	}
+	
+	
+	public String productosPER(Set<Producto> productos){
+		StringBuffer pPER=new StringBuffer(300);
+		Iterator<Producto> i=productos.iterator();
+		if(i.hasNext()){
+			if (productos.size()==1)
+				pPER.append(" y el producto ");
+			else
+				pPER.append(" y los productos"+"\n");
+			
+			String conector;
+				
+			if(productos.size()>2)
+				conector=", ";
+			else
+				conector="";
+			
+			Producto producto=i.next();
+			
+			do{
+				pPER.append(producto.getNombre());
+				if(i.hasNext())
+					producto=i.next();
+				else {
+					producto=null;
+					conector="";
+				}
+						
+				if(!i.hasNext() && producto!=null)
+					conector=" y ";
+				
+				pPER.append(conector+"\n");
+				
+			} while(producto!=null);
+		
+		
+			if (productos.size()==1)
+				pPER.append("se encuentra disponible\"\n");
+			else
+				pPER.append("se encuentran disponibles\"\n");
+		}else{
+			pPER.append("\"\n");
+		}
+		
+		return pPER.toString();
+	}
 	
 	@Override
 	public String toString() {

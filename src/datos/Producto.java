@@ -56,6 +56,10 @@ public class Producto extends MasterDato {
 		return "(producto (codigo "+getCodigo()+") (estado "+(estaDisponible ? "disponible" : "no-disponible") + "))\n";
 	}
 	
+	public String disponiblePER(boolean estaDisponible, int numerador){
+		return "producto"+numerador+"<-codigo="+getCodigo()+"\nY producto"+numerador+"<-estado="+(estaDisponible ? "disponible" : "no-disponible") + "\n";
+	}
+	
 	@Override
 	public String toString() {
 		return "Producto OK";
