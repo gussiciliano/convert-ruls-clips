@@ -7,5 +7,7 @@ public class FaseABM extends MasterABM<Fase>{
 	
 	public FaseABM() {
 		super(new FaseDao());
+		
+		
 	}
 }

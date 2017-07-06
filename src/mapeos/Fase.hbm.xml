@@ -9,7 +9,7 @@
 		<property column="codigo" name="codigo" type="string" />
 		<set name="faseHasActividades" table="fase_has_actividad" order-by="idFaseHasActividad asc"
 			inverse="true" lazy="true" fetch="select">
-			<key column="idfase" not-null="true" />
+			<key column="fase_idfase" not-null="true" />
 			<one-to-many class="datos.FaseHasActividad" />
 		</set>
 	</class>

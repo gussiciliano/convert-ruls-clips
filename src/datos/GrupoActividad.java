@@ -2,14 +2,28 @@ package datos;
 
 import java.util.Set;
 
+import negocio.FaseABM;
+
 public class GrupoActividad extends MasterDato {
+	
+//	static String fases="";
+//	{
+//		FaseABM fa=new FaseABM();
+//		for(Fase f:fa.traerTodos()){
+//			fases=fases+f.getCodigo()+" ";
+//		}
+//	}
+	
 	private int idGrupoActividad;
 	private String nombre;
 	private Proceso proceso;
 	private String codigo;
 	private Set<Actividad> actividades;
 
+	
+	
 	public GrupoActividad() {
+		
 	}
 
 	public int getIdGrupoActividad() {
@@ -59,6 +73,13 @@ public class GrupoActividad extends MasterDato {
 	}
 	
 	public String defTemplateActividad(){
+
+		String fases="";
+		FaseABM fa=new FaseABM();
+		for(Fase f:fa.traerTodos()){
+			fases=fases+f.getCodigo()+" ";
+		}
+		
 		StringBuffer template=new StringBuffer(300);
 		template.append("(deftemplate "+codigo+"\n");
 		template.append("   (slot codigo\n");
@@ -75,10 +96,10 @@ public class GrupoActividad extends MasterDato {
 		template.append("		(allowed-symbols no-iniciada iniciada terminada))\n");
 		template.append("   (slot fase-inicial \n");
 		template.append("		(type SYMBOL)\n");
-		template.append("		(allowed-symbols prep req dis codif test oper fin))\n");
+		template.append("		(allowed-symbols "+fases+"))\n"); //prep req dis codif test oper fin))\n");
 		template.append("   (slot fase-final\n");
 		template.append("		(type SYMBOL)\n");
-		template.append("		(allowed-symbols prep req dis codif test oper fin)))\n");
+		template.append("		(allowed-symbols "+fases+")))\n");
 		return template.toString();
 	}
 }
