@@ -1,5 +1,7 @@
 package negocio;
 
+import java.util.Iterator;
+
 import dao.ProductoDao;
 import datos.Producto;
 
@@ -30,18 +32,31 @@ public class ProductoABM extends MasterABM<Producto>{
 		template.append("    (slot codigo\n");
 		template.append("        (type SYMBOL)\n");
 		template.append("        (allowed-symbols ");
-		for(Producto p:pd.traerTodos()){
-			template.append(p.getCodigo()+" "); 
+		//template.append("                         ");
+		Iterator<Producto> i=pd.traerTodos().iterator();
+		int contador=0;
+		while(i.hasNext()){
+			Producto p=i.next();
+			template.append(p.getCodigo());
+			if(contador<6){
+				template.append(" ");
+				contador++;
+			}else{
+				contador=0;
+				if(i.hasNext()){
+					template.append("\n                         ");
+				}
+			}
 		}
 		template.append("))\n");
-		template.append("    (slot descripcion\n");        
+		template.append("    (slot nombre\n");        
 		template.append("        (type STRING))\n");
 		template.append("    (slot estado\n");
 		template.append("        (type SYMBOL)\n");
 		template.append("        (allowed-symbols no-disponible en-curso disponible))\n");
 		template.append("    (slot origen\n");
 		template.append("        (type SYMBOL)\n");
-		template.append("        (allowed-symbols interno-externo)))\n\n");    
+		template.append("        (allowed-symbols interno externo)))\n\n");    
 		return template.toString();		
 	}
 	

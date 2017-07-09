@@ -60,6 +60,25 @@ public class Producto extends MasterDato {
 		return "producto"+numerador+"<-codigo="+getCodigo()+"\nY producto"+numerador+"<-estado="+(estaDisponible ? "disponible" : "no-disponible") + "\n";
 	}
 	
+	
+	public String defFact(){
+		// genera el deffact para la fase
+		// necesitamos el codigo para la actividad desde el grupo de actividad
+				
+		//(trabajador (causa nacimiento) (nombre empleado1) (antiguedad 12) (acumulado-examen 0))
+		
+		StringBuffer fact=new StringBuffer(300);
+			
+		fact.append("    (producto\n");
+		fact.append("	    (codigo "+codigo+")\n");
+		fact.append("	    (nombre \""+nombre+"\")\n");
+		fact.append("	    (estado no-disponible)\n");
+		fact.append("	    (origen interno))\n");
+		
+		return fact.toString();
+	}
+	
+	
 	// reglas de iniciacion y finalizacion de producto
 	// Para que un producto pueda iniciarse, la actividad de la que es salida debe estar iniciada
 	// para que pueda terminarse, también, así que basta con que el producto esté en curso

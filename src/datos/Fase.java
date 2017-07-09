@@ -60,6 +60,23 @@ public class Fase extends MasterDato {
 		return "fase<-codigo="+getCodigo()+"\nY fase<-estado=en-curso\n";
 	}
 	
+	
+	public String defFact(){
+		// genera el deffact para la fase
+		// necesitamos el codigo para la actividad desde el grupo de actividad
+				
+		//(trabajador (causa nacimiento) (nombre empleado1) (antiguedad 12) (acumulado-examen 0))
+		
+		StringBuffer fact=new StringBuffer(300);
+			
+		fact.append("    (fase\n");
+		fact.append("	    (codigo "+codigo+")\n");
+		fact.append("	    (nombre \""+nombre+"\")\n");
+		fact.append("	    (estado no-iniciada))\n");
+		
+		return fact.toString();
+	}
+	
 	// Cambiamos de fase cuando todas las actividades que tienen que terminar en esa fase terminaron
 	// y cuando las que tengan que iniciar hayan iniciado, de otra forma no se puede cambiar de fase.
 	
@@ -82,6 +99,7 @@ public class Fase extends MasterDato {
 			
 		StringBuffer regla=new StringBuffer(300);
 		
+		regla.append(";; Regla de terminación de fase "+nombre+"\n\n");
 		
 		regla.append("(defrule finalizar-fase-"+codigo+"\n");
 		

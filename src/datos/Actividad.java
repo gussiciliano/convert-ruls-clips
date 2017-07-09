@@ -141,16 +141,19 @@ public class Actividad extends MasterDato {
 		
 		StringBuffer fact=new StringBuffer(300);
 			
-		fact.append("("+grupoActividad.getCodigo()+"\n");
-		fact.append("	(codigo "+codigo+")\n");
-		fact.append("	(nombre '"+nombre+"')\n");
-		fact.append("	(estado no-iniciada)\n");
+		fact.append("    ("+grupoActividad.getCodigo()+"\n");
+		fact.append("	    (codigo "+codigo+")\n");
+		fact.append("	    (nombre \""+nombre+"\")\n");
+		fact.append("	    (estado no-iniciada)\n");
 		Fase fi=faseInicial();
 		Fase ff=faseFinal();
-		String code=(fi==null ? "na" : fi.getCodigo());
-		fact.append("	(fase-inicial "+code+")\n");
-		code=(ff==null ? "na" : ff.getCodigo());
-		fact.append("	(fase-final "+code+"))\n");
+		if (fi!=null && ff!=null){
+			String code=(fi==null ? "na" : fi.getCodigo());
+			fact.append("	    (fase-inicial "+code+")\n");
+			code=(ff==null ? "na" : ff.getCodigo());
+			fact.append("	    (fase-final "+code+")");
+		}
+		fact.append(")\n");
 		
 		return fact.toString();
 	}
