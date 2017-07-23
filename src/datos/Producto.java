@@ -86,8 +86,9 @@ public class Producto extends MasterDato {
 	
 	public String defRules(){
 		
-		return ";; Par de reglas de inicializacion y terminación para el producto "+nombre+"\n\n"+
-				defRuleIniciacion()+"\n\n"+defRuleFinalizacion();
+		return ";; Reglas de inicializacion y terminación para el producto "+nombre+"\n\n"+
+				defRuleIniciacion()+"\n\n"+defRuleNoIniciacion1()+"\n\n"+defRuleNoIniciacion2()
+				+"\n\n"+defRuleFinalizacion();
 	}
 	
 	public String defRuleIniciacion(){
@@ -114,6 +115,70 @@ public class Producto extends MasterDato {
 		return regla.toString();
 		
 	}
+	
+	// Reglas para imprimir mensajes de que no se pudo
+	
+//	(defrule no-puede-iniciar-prod-estimac1
+//		    ?f <- (modificar-estado estimac iniciar)
+//		    (producto (codigo estimac) (estado no-disponible) (nombre ?np))
+//		    (actividad-inic (codigo estimar) (estado ~iniciada) (nombre ?na))
+//		    =>
+//		    (printout t "No puede iniciarse el producto " ?np " por que no se ha iniciado la actividad " ?na crlf)
+//		    (retract ?f))
+//
+	
+public String defRuleNoIniciacion1(){
+		
+		StringBuffer regla=new StringBuffer(300);
+		
+		regla.append("(defrule no-puede-iniciar-prod-"+codigo+"1\n");
+		
+		// Tenemos el token de iniciación?
+		regla.append("    ?f <- (modificar-estado "+getCodigo()+" iniciar)\n");
+		// el producto está no disponible?
+		regla.append("    (producto (codigo "+getCodigo()+") (estado no-disponible) (nombre ?np))\n");
+		// la actividad de la que es salida, está en otro estado que iniciada?
+		for(Actividad a:salidaDeActividades){
+			regla.append("    ("+a.getGrupoActividad().getCodigo()+" (codigo "+a.getCodigo()+") (estado ~iniciada) (nombre ?na))\n");	
+		}
+		
+		regla.append("    "+"=>\n");
+		
+		// indicamos error y retraemos el token 
+		regla.append("    "+"(printout t \"No puede iniciarse el producto \" ?np \" porque no se ha iniciado la actividad \" ?na crlf)\n");
+		regla.append("    "+"(retract ?f))\n");
+		
+		return regla.toString();
+		
+	}
+	
+//		(defrule no-puede-iniciar-prod-estimac2
+//		    ?f <- (modificar-estado estimac iniciar)
+//		    (producto (codigo estimac) (estado ~no-disponible) (nombre ?np))
+//		    =>
+//		    (printout t "No puede iniciarse el producto " ?np "porque su estado es distinto a no disponible" crlf)
+//		    (retract ?f))
+
+public String defRuleNoIniciacion2(){
+	
+	StringBuffer regla=new StringBuffer(300);
+	
+	regla.append("(defrule no-puede-iniciar-prod-"+codigo+"2\n");
+	
+	// Tenemos el token de iniciación?
+	regla.append("    ?f <- (modificar-estado "+getCodigo()+" iniciar)\n");
+	// el producto está en otro estado que no disponible?
+	regla.append("    (producto (codigo "+getCodigo()+") (estado ~ no-disponible) (nombre ?np))\n");
+	regla.append("    "+"=>\n");
+	
+	// indicamos error y retraemos el token 
+	regla.append("    "+"(printout t \"No puede iniciarse el producto \" ?np \" porque su estado es distinto a no disponible\" crlf)\n");
+	regla.append("    "+"(retract ?f))\n");
+	
+	return regla.toString();
+	
+}
+	
 	
 	public String defRuleFinalizacion(){
 		

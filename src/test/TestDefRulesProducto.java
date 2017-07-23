@@ -27,8 +27,6 @@ public class TestDefRulesProducto {
 			System.out.println(producto.defRules());
 		}
 		
-		
-
 	}
 	
 }

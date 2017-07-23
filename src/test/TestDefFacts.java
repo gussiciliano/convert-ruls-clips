@@ -27,6 +27,20 @@ public class TestDefFacts {
 		
 		System.out.println("(deffacts hechos-iniciales\n"); 
 		
+		System.out.println(";    ========================= MCV =========================\n");
+		
+//		(deftemplate mcv
+//				  (slot codigo
+//					(type SYMBOL)
+//					(allowed-symbols nil cascada prot-evolutivo prot-desechable espiral))
+//				  (slot nombre
+//					(type STRING)))
+
+		
+		System.out.println("    (mcv");
+		System.out.println("        (codigo cascada");
+		System.out.println("        (nombre \"Modelo de Ciclo de Vida Cascada\"))\n");
+		
 		System.out.println(";    ========================= Hechos de fase =========================\n\n");
 		
 		for(Fase fase:fases){
@@ -47,7 +61,7 @@ public class TestDefFacts {
 			System.out.println(producto.defFact());
 		}
 		
-		System.out.println("\b\b)\n"); 
+		System.out.println(")\n"); 
 			
 	}
 
