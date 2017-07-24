@@ -27,7 +27,7 @@ public class TestDefFacts {
 		
 		System.out.println("(deffacts hechos-iniciales\n"); 
 		
-		System.out.println(";    ========================= MCV =========================\n");
+		System.out.println(";    =============================== MCV ==============================\n");
 		
 //		(deftemplate mcv
 //				  (slot codigo
@@ -38,7 +38,7 @@ public class TestDefFacts {
 
 		
 		System.out.println("    (mcv");
-		System.out.println("        (codigo cascada");
+		System.out.println("        (codigo cascada)");
 		System.out.println("        (nombre \"Modelo de Ciclo de Vida Cascada\"))\n");
 		
 		System.out.println(";    ========================= Hechos de fase =========================\n\n");

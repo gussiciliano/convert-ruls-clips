@@ -54,6 +54,10 @@ public class ProductoABM extends MasterABM<Producto>{
 		template.append("    (slot estado\n");
 		template.append("        (type SYMBOL)\n");
 		template.append("        (allowed-symbols no-disponible en-curso disponible))\n");
+		template.append("    (multislot entrada-de\n");
+		template.append("        (type SYMBOL))\n");
+		template.append("    (multislot salida-de\n");
+		template.append("        (type SYMBOL))\n");
 		template.append("    (slot origen\n");
 		template.append("        (type SYMBOL)\n");
 		template.append("        (allowed-symbols interno externo)))\n\n");    

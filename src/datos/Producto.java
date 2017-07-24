@@ -73,6 +73,27 @@ public class Producto extends MasterDato {
 		fact.append("	    (codigo "+codigo+")\n");
 		fact.append("	    (nombre \""+nombre+"\")\n");
 		fact.append("	    (estado no-disponible)\n");
+		
+		fact.append("	    (salida-de ");
+		if(salidaDeActividades.size()==0){
+			fact.append("ninguna");
+		}else{
+			for(Actividad a:salidaDeActividades){
+				fact.append(a.getCodigo()+" ");	
+			}
+		}
+		fact.append(")\n");
+		
+		fact.append("	    (entrada-de ");
+		if(entradaDeActividades.size()==0){
+			fact.append("ninguna");
+		}else{
+			for(Actividad a:entradaDeActividades){
+				fact.append(a.getCodigo()+" ");	
+			}
+		}
+		fact.append(")\n");
+		
 		fact.append("	    (origen interno))\n");
 		
 		return fact.toString();
