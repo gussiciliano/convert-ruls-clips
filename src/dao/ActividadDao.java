@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 
 import datos.Actividad;
 import datos.FaseHasActividad;
+import datos.Producto;
 
 public class ActividadDao extends MasterDao<Actividad> {
 
@@ -26,7 +27,15 @@ public class ActividadDao extends MasterDao<Actividad> {
 				Hibernate.initialize(a.getProceso());
 				Hibernate.initialize(a.getGrupoActividad());
 				Hibernate.initialize(a.getProductosDeEntrada());
+				for(Producto p:a.getProductosDeEntrada()){
+					Hibernate.initialize(p.getSalidaDeActividades());
+					Hibernate.initialize(p.getEntradaDeActividades());
+				}
 				Hibernate.initialize(a.getProductosDeSalida());
+				for(Producto p:a.getProductosDeSalida()){
+					Hibernate.initialize(p.getSalidaDeActividades());
+					Hibernate.initialize(p.getEntradaDeActividades());
+				}
 			}
 
 		} finally {

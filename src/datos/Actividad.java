@@ -111,25 +111,9 @@ public class Actividad extends MasterDato {
 		return f;		
 	}
 	
-	
-	/*
-	(deffacts hechos-iniciales
-			  (trabajador (causa nacimiento) (nombre empleado1) (antiguedad 12) (acumulado-examen 0))
-			  (trabajador (causa matrimonio) (nombre empleado2) (antiguedad 16) (acumulado-examen 0))
-			  (trabajador (causa fallecimiento-conyuge) (nombre emplado3) (antiguedad 18) (acumulado-examen 0))
-			  (trabajador (causa fallecimiento-hijos) (nombre empleado4) (antiguedad 5) (acumulado-examen 0))
-			  (trabajador (causa fallecimiento-padres) (nombre empleado5) (antiguedad 20) (acumulado-examen 0))
-			  (trabajador (causa fallecimiento-hermano) (nombre empleado6) (antiguedad 22) (acumulado-examen 0))
-			  (trabajador (causa examen) (nombre empleado7) (antiguedad 1) (acumulado-examen 6))
-			  (trabajador (causa examen) (nombre empleado8) (antiguedad 3) (acumulado-examen 10))
-			  (trabajador (causa ordinaria) (nombre empleado9) (antiguedad 2) (acumulado-examen 0))
-			  (trabajador (causa ordinaria) (nombre empleado10) (antiguedad 7) (acumulado-examen 0))
-			  (trabajador (causa ordinaria) (nombre empleado11) (antiguedad 12) (acumulado-examen 0))
-			  (trabajador (causa ordinaria) (nombre empleado12) (antiguedad 22) (acumulado-examen 0)))
-
-	*/
-	
+		
 	public String defFact(){
+		// se la actividad no pertenece a ninguna fase, significa que no se lleva adelante
 		// genera el deffact para la actividad
 		// necesitamos el codigo para la actividad desde el grupo de actividad
 		
@@ -140,21 +124,23 @@ public class Actividad extends MasterDato {
 		//(trabajador (causa nacimiento) (nombre empleado1) (antiguedad 12) (acumulado-examen 0))
 		
 		StringBuffer fact=new StringBuffer(300);
-			
-		fact.append("    ("+grupoActividad.getCodigo()+"\n");
-		fact.append("	    (codigo "+codigo+")\n");
-		fact.append("	    (nombre \""+nombre+"\")\n");
-		fact.append("	    (estado no-iniciada)\n");
-		Fase fi=faseInicial();
-		Fase ff=faseFinal();
-		if (fi!=null && ff!=null){
-			String code=(fi==null ? "na" : fi.getCodigo());
-			fact.append("	    (fase-inicial "+code+")\n");
-			code=(ff==null ? "na" : ff.getCodigo());
-			fact.append("	    (fase-final "+code+")");
-		}
-		fact.append(")\n");
 		
+		if(faseHasActividades.size()!=0){
+		
+			fact.append("    ("+grupoActividad.getCodigo()+"\n");
+			fact.append("	    (codigo "+codigo+")\n");
+			fact.append("	    (nombre \""+nombre+"\")\n");
+			fact.append("	    (estado no-iniciada)\n");
+			Fase fi=faseInicial();
+			Fase ff=faseFinal();
+			if (fi!=null && ff!=null){
+				String code=(fi==null ? "na" : fi.getCodigo());
+				fact.append("	    (fase-inicial "+code+")\n");
+				code=(ff==null ? "na" : ff.getCodigo());
+				fact.append("	    (fase-final "+code+")");
+			}
+			fact.append(")\n");
+		}
 		return fact.toString();
 	}
 	
@@ -199,8 +185,17 @@ public class Actividad extends MasterDato {
 	//		}
 			
 			// están los productos necesarios?
+			// OJO! los productos de actividades que no están disponibles (porque no se indicaron en el mapa de actividades)
+			// no deben incluirse como entrada!
 			for(Producto producto:productosDeEntrada){
-				regla.append("    "+producto.disponible(true));
+				if(producto.isInterno()){
+					Actividad salidaDe=producto.salidaDe();
+					if(salidaDe.getFaseHasActividades().size()!=0){
+						regla.append("    "+producto.disponible(true));
+					}
+				} else {
+					regla.append("    "+producto.disponible(true));
+				}
 			}
 			
 			regla.append("    "+"=>\n");

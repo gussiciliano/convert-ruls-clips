@@ -21,6 +21,8 @@ public class ProductoDao extends MasterDao<Producto> {
 				for(Actividad a:p.getSalidaDeActividades()){
 					Hibernate.initialize(a.getGrupoActividad());
 				}
+				Hibernate.initialize(p.getSalidaDeActividades());
+				Hibernate.initialize(p.getEntradaDeActividades());
 			}
 
 		} finally {

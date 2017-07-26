@@ -8,6 +8,7 @@ public class Producto extends MasterDato {
 	private String codigo;
 	private Set<Actividad> entradaDeActividades;
 	private Set<Actividad> salidaDeActividades;
+	private boolean interno;
 
 	public Producto() {
 	}
@@ -60,7 +61,23 @@ public class Producto extends MasterDato {
 		return "producto"+numerador+"<-codigo="+getCodigo()+"\nY producto"+numerador+"<-estado="+(estaDisponible ? "disponible" : "no-disponible") + "\n";
 	}
 	
+	public Actividad salidaDe(){
+		Actividad a=null;
+		for(Actividad ac:salidaDeActividades){
+			a=ac;
+			break;
+		}
+		return a;
+	}
 	
+	public boolean isInterno() {
+		return interno;
+	}
+
+	public void setInterno(boolean interno) {
+		this.interno = interno;
+	}
+
 	public String defFact(){
 		// genera el deffact para la fase
 		// necesitamos el codigo para la actividad desde el grupo de actividad
@@ -94,7 +111,7 @@ public class Producto extends MasterDato {
 		}
 		fact.append(")\n");
 		
-		fact.append("	    (origen interno))\n");
+		fact.append("	    (origen "+ (interno ? "interno" : "externo") +"))\n");
 		
 		return fact.toString();
 	}
@@ -109,7 +126,7 @@ public class Producto extends MasterDato {
 		
 		return ";; Reglas de inicializacion y terminación para el producto "+nombre+"\n\n"+
 				defRuleIniciacion()+"\n\n"+defRuleNoIniciacion1()+"\n\n"+defRuleNoIniciacion2()
-				+"\n\n"+defRuleFinalizacion();
+				+"\n\n"+defRuleFinalizacion()+"\n\n"+defRuleNoFinalizacion();
 	}
 	
 	public String defRuleIniciacion(){
@@ -151,24 +168,24 @@ public class Producto extends MasterDato {
 public String defRuleNoIniciacion1(){
 		
 		StringBuffer regla=new StringBuffer(300);
-		
-		regla.append("(defrule no-puede-iniciar-prod-"+codigo+"1\n");
-		
-		// Tenemos el token de iniciación?
-		regla.append("    ?f <- (modificar-estado "+getCodigo()+" iniciar)\n");
-		// el producto está no disponible?
-		regla.append("    (producto (codigo "+getCodigo()+") (estado no-disponible) (nombre ?np))\n");
-		// la actividad de la que es salida, está en otro estado que iniciada?
-		for(Actividad a:salidaDeActividades){
-			regla.append("    ("+a.getGrupoActividad().getCodigo()+" (codigo "+a.getCodigo()+") (estado ~iniciada) (nombre ?na))\n");	
+		if (salidaDeActividades.size()!=0){
+			regla.append("(defrule no-puede-iniciar-prod-"+codigo+"1\n");
+			
+			// Tenemos el token de iniciación?
+			regla.append("    ?f <- (modificar-estado "+getCodigo()+" iniciar)\n");
+			// el producto está no disponible?
+			regla.append("    (producto (codigo "+getCodigo()+") (estado no-disponible) (nombre ?np))\n");
+			// la actividad de la que es salida, está en otro estado que iniciada?
+			for(Actividad a:salidaDeActividades){
+				regla.append("    ("+a.getGrupoActividad().getCodigo()+" (codigo "+a.getCodigo()+") (estado ~iniciada) (nombre ?na))\n");	
+			}
+			
+			regla.append("    "+"=>\n");
+			
+			// indicamos error y retraemos el token 
+			regla.append("    "+"(printout t \"No puede iniciarse el producto \" ?np \" porque no se ha iniciado la actividad \" ?na crlf)\n");
+			regla.append("    "+"(retract ?f))\n");
 		}
-		
-		regla.append("    "+"=>\n");
-		
-		// indicamos error y retraemos el token 
-		regla.append("    "+"(printout t \"No puede iniciarse el producto \" ?np \" porque no se ha iniciado la actividad \" ?na crlf)\n");
-		regla.append("    "+"(retract ?f))\n");
-		
 		return regla.toString();
 		
 	}
@@ -206,7 +223,7 @@ public String defRuleNoIniciacion2(){
 		StringBuffer regla=new StringBuffer(300);
 		
 		regla.append("(defrule finalizar-prod-"+codigo+"\n");
-		regla.append("    ?f <- (modificar "+getCodigo()+" terminar)\n");
+		regla.append("    ?f <- (modificar-estado "+getCodigo()+" terminar)\n");
 		regla.append("    ?p <- (producto (codigo "+getCodigo()+") (estado en-curso))\n");
 		
 		regla.append("    "+"=>\n");
@@ -214,6 +231,25 @@ public String defRuleNoIniciacion2(){
 		// marcamos el producto como en curso 
 		
 		regla.append("    "+"(modify ?p (estado disponible))\n");
+		regla.append("    "+"(retract ?f))\n");
+		
+		return regla.toString();
+		
+	}
+	
+	public String defRuleNoFinalizacion(){
+		
+		StringBuffer regla=new StringBuffer(300);
+		
+		regla.append("(defrule no-puede-finalizar-prod-"+codigo+"\n");
+		regla.append("    ?f <- (modificar-estado "+getCodigo()+" terminar)\n");
+		regla.append("    ?p <- (producto (codigo "+getCodigo()+") (estado ~en-curso) (nombre ?np))\n");
+		
+		regla.append("    "+"=>\n");
+		
+		// marcamos el producto como en curso 
+		
+		regla.append("    "+"(printout t \"No puede finalizarse el producto \" ?np \" porque no se encuentra en curso\" crlf)\n");
 		regla.append("    "+"(retract ?f))\n");
 		
 		return regla.toString();

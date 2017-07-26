@@ -23,7 +23,7 @@ public class ProductoABM extends MasterABM<Producto>{
 //					(allowed-symbols no-disponible en-curso disponible))
 //				  (slot origen 
 //					(type SYMBOL)
-//					(allowed-symbols interno-externo)))
+//					(allowed-symbols interno externo)))
 		
 		ProductoDao pd=(ProductoDao) this.getDao();
 		
